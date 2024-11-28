@@ -54,7 +54,7 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         push: true
-        tags: flask-docker:${{ steps.date.outputs.date }}
+        tags: docker.io/${{ vars.DOCKERHUB_USERNAME }}/flask-docker:${{ steps.date.outputs.date }}
         context: .
         cache-from: type=gha
         cache-to: type=gha, mode=max
