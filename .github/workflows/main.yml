@@ -1,0 +1,15 @@
+name: FlaskApp
+on: [push]
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout v4
+      uses: actions/checkout@v4
+
+    - name: Python installation
+      uses: actions/setup-python@v5
+
+    - name: Dependencies
+      run: "pip install --quiet --upgrade --requirement requirements.txt"
