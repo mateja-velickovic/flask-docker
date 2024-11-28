@@ -1,16 +1,19 @@
 name: FlaskApp
 on: [push]
+
 jobs:
-  setup-flask:
+  lint-test:
     runs-on: ubuntu-latest
 
     steps:
     - name: Get the repository
       uses: actions/checkout@v4
 
-    - name: Install Python v5
+    - name: Install Python v3.8
       uses: actions/setup-python@v5
-      
+      with:
+        python-version: '3.8'
+        
     - name: Install the dependencies
       run: "pip install --quiet --upgrade --requirement requirements.txt"
 
@@ -23,3 +26,10 @@ jobs:
       run: |
         python -m unittest --verbose --failfast
         
+  build:
+    needs: lint-test
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Get the repository
+      uses: actions/checkout@v4
