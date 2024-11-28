@@ -1,23 +1,20 @@
 name: FlaskApp
 on: [push]
 jobs:
-  setup:
+  setup-flask:
     runs-on: ubuntu-latest
 
     steps:
     - name: Get the repository
       uses: actions/checkout@v4
 
-    - name: Python installation
+    - name: Install Python v5
       uses: actions/setup-python@v5
-    - name: Installting the application dependencies
+      
+    - name: Install the dependencies
       run: "pip install --quiet --upgrade --requirement requirements.txt"
 
-  lint:
-    runs-on: ubuntu-latest
-    
-    steps:
-    - name: Linting the code
+    - name: Lint the code
       run: |
         flake8 --ignore=E501,E231 *.py
         pylint --errors-only --disable=C0301 --disable=C0326 *.py
