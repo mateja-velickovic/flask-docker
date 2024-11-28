@@ -29,7 +29,32 @@ jobs:
   build:
     needs: lint-test
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
 
     steps:
     - name: Get the repository
       uses: actions/checkout@v4
+
+    - name: Setup Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Login to Github Package Registry
+      uses: docker/login-actiom@v3
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Get current date
+      id: date
+      run: echo "::set-output name=date::$(date +'%Y-%m-%d--%M-%S')"
+
+    - name: Build and push the image
+      uses: docker/build-push-action@v5
+      with:
+        push: true
+        tags: flask-docker:${{ steps.date.outputs.date }}
+        context: .
+        cache-from: type=gha
+        cache-to: type=gha, mode=max
