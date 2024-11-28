@@ -46,6 +46,12 @@ jobs:
         username: ${{ vars.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+    - name: Get Metadata
+      id: metadata
+      uses: docker/metadata-action@v5
+      with:
+        images: ghcr.io/${{ github.repository }}/
+
     - name: Get current date
       id: date
       run: echo "::set-output name=date::$(date +'%Y-%m-%d--%M-%S')"
